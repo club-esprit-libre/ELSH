@@ -23,22 +23,15 @@ int execNonePipedCmd(char **str){
 
 
 
-int execPipedCmd(struct command *cmd,int number_of_parsers) {
-
-
-
-
-}
 
 
 
 
 
 
-void runPipedCommands(struct command *cmd,int number_of_pipes) {
+int  execPipedCmd(struct command *cmd,int number_of_pipes) {
 
-
-    int status;
+      int status;
     int i = 0;
     pid_t pid;
 
@@ -46,26 +39,26 @@ void runPipedCommands(struct command *cmd,int number_of_pipes) {
 
     for(i = 0; i < (number_of_pipes); i++){
         if(pipe(pipefds + i*2) < 0) {
-            perror("couldn't pipe");
             exit(EXIT_FAILURE);
         }
     }
-
+    int commandc=0;
 
     int j = 0;
-    for(int n=0;n<number_of_pipes;n++) {
+    for(commandc=0;commandc<number_of_pipes;commandc++) {
         pid = fork();
         if(pid == 0) {
 
             //if not last command
+            if(commandc!=number_of_pipes-1){
                 if(dup2(pipefds[j + 1], 1) < 0){
-                    perror("dup2");
                     exit(EXIT_FAILURE);
                 }
-            //if not first n!=0&& j!= 2*numPipes
+            }
+
+            //if not first command&& j!= 2*numPipes
             if(j != 0 ){
                 if(dup2(pipefds[j-2], 0) < 0){
-                    perror(" dup2");///j-2 0 j+1 1
                     exit(EXIT_FAILURE);
 
                 }
@@ -76,11 +69,10 @@ void runPipedCommands(struct command *cmd,int number_of_pipes) {
                     close(pipefds[i]);
             }
 
-            if( execvp(cmd[n].cmd[0], cmd[n].cmd) < 0 ){
+            if( execvp(cmd[commandc].cmd[0], cmd[commandc].cmd) < 0 ){
                     exit(EXIT_FAILURE);
             }
         } else if(pid < 0){
-            perror("error");
             exit(EXIT_FAILURE);
         }
 
@@ -95,3 +87,15 @@ void runPipedCommands(struct command *cmd,int number_of_pipes) {
     for(i = 0; i < number_of_pipes + 1; i++)
         wait(&status);
 }
+
+
+
+
+
+
+
+
+
+
+
+
