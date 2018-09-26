@@ -18,5 +18,6 @@ int main(int argc,char **argv){
         }
             execPipedCmd(cmd,numCMD);
     }
+    write_history("/home/riadh/.testhis.txt");
 
 }
