@@ -13,7 +13,10 @@ int main(int argc,char **argv){
         numCMD=processString(src,cmd);
         if(numCMD==1){
             execNonePipedCmd(cmd[0].cmd);
+            numCMD=-1;
+        } else {
         }
+            execPipedCmd(cmd,numCMD);
     }
 
 }
