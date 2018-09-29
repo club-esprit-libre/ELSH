@@ -80,9 +80,7 @@ int parsePipe(char* str, char** strpiped) {
     while(strpiped[i] != NULL) {
         i++;
         strpiped[i] = strtok(NULL, "|");
-        perror("\nerror:");
     }
-        printf("%d",i);
     return i;
 }
 
@@ -112,7 +110,6 @@ void parseSpace(char* str, char** cmd)
     while(cmd[i] != NULL) {
         i++;
         cmd[i] = strtok(NULL, " ");
-        perror("\nerror:");
     }
 }
 
