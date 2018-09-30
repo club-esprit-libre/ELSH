@@ -16,6 +16,9 @@ void openHelp()
 
 int ownCmdHandler(char** parsed)
 {
+    char history_file[1024]= "/home/";
+    strcat(history_file,getenv("USER"));
+    strcat(history_file,"/.test.txt");
     int NoOfOwnCmds = 4, i, switchOwnArg = 0;
     char* ListOfOwnCmds[NoOfOwnCmds];
     char* username;
@@ -36,6 +39,7 @@ int ownCmdHandler(char** parsed)
     switch (switchOwnArg) {
     case 1:
         printf("\nGoodbye\n");
+        write_history(history_file);
         exit(0);
     case 2:
         chdir(parsed[1]);
@@ -58,12 +62,15 @@ int ownCmdHandler(char** parsed)
 }
 
 
-
 int takeInput(char* str)
 {
+    char bar[1024]="\n$ DIR:";
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    strcat(bar,cwd);
+    strcat(bar,">> ");
     char* buf;
-
-    buf = readline("\n$ ");
+    buf = readline(bar);
     if (strlen(buf) != 0) {
         add_history(buf);
         strcpy(str,buf);

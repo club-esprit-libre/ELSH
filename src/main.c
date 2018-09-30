@@ -1,12 +1,17 @@
 #include "../include/excuting.h"
 #include "../include/parse.h"
 
-
 int main(int argc,char **argv){
     struct command cmd[MAXLIST];
     char src[MAXCOM];
     char *shit[MAXCOM];
     int numCMD;
+    char history_file[1024]= "/home/";
+    strcat(history_file,getenv("USER"));
+    printf("%s\n",history_file);
+    strcat(history_file,"/.test.txt");
+    using_history();
+    read_history(history_file);
     while(1) {
         if (takeInput(src))
             continue;
@@ -18,6 +23,5 @@ int main(int argc,char **argv){
         }
             execPipedCmd(cmd,numCMD);
     }
-    write_history("/home/riadh/.testhis.txt");
 
 }
