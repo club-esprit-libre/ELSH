@@ -1,4 +1,5 @@
 #include "../include/parse.h"
+#include "../include/nerdfondticons.h"
 
 void openHelp()
 {
@@ -64,11 +65,15 @@ int ownCmdHandler(char** parsed)
 
 int takeInput(char* str)
 {
-    char bar[1024]="\n$ DIR:";
+    char bar[1024]="\n";
+    strcat(bar,nf_custom_folder_open);
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
+    strcat(bar," ");
     strcat(bar,cwd);
-    strcat(bar,">> ");
+    strcat(bar," ");
+    strcat(bar,nf_fa_angle_double_right);
+    strcat(bar," ");
     char* buf;
     buf = readline(bar);
     if (strlen(buf) != 0) {
