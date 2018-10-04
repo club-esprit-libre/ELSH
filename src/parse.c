@@ -146,11 +146,11 @@ void parseSpace(char* str, char** cmd)
     }
 }
 
-void clearBackgroundExecSymbol(char **cmd) {
+void clearBackgroundExecSymbol(char *cmd) {
     int i=0;
-    while(cmd[i]!=NULL) {
-        if(strcmp(cmd[i],"&")){
-            strcpy(cmd[i]," ");
+    while(cmd[i]!='\0') {
+        if(cmd[i]=='&'){
+            cmd[i]=' ';
             return ;
         }
     i++;
@@ -166,18 +166,15 @@ int processString(char* str,struct command *cmd){
     piped = parsePipe(str, strpiped);
     int specific_char[piped];
     if (piped > 1) {
-        for(int i=0;i<piped;i++){
-            parseSpace(strpiped[i], cmd[i].cmd);
-            specific_char[i]=findspecificChar(strpiped[i]);
-        }
         for(int i=0;i<piped;i++) {
+            specific_char[i]=findspecificChar(strpiped[i]);
             switch(specific_char[i]){
                 case 0 :
                 if(i!=piped-1)
+                    clearBackgroundExecSymbol(strpiped[i]);
                     return 0;
                 break;
                 case 2 :
-
                 break;
                 case 3 :
 
@@ -187,15 +184,17 @@ int processString(char* str,struct command *cmd){
                 break;
             }
         }
+        for(int i=0;i<piped;i++)
+            parseSpace(strpiped[i], cmd[i].cmd);
     }
     else {
         specific_char[0]=findspecificChar(str);
                     if(specific_char[0]==0){
-                    clearBackgroundExecSymbol(cmd[0].cmd);
+                    clearBackgroundExecSymbol(str);
                     return 0;
                 }
     }
-    parseSpace(str, cmd[0].cmd);
+        parseSpace(str, cmd[0].cmd);
     if(ownCmdHandler(cmd[0].cmd))
         return 0;
     return piped;
