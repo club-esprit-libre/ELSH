@@ -14,5 +14,6 @@
 #include "./parse.h"
 int execNonePipedCmd(char **str);
 int execPipedCmd(struct command *cmd,int number_of_pipes);
+int execNonePipedDemondCmd(char **str);
 #endif
 

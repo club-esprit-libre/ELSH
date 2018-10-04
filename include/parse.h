@@ -21,4 +21,6 @@ int ownCmdHandler(char** parsed);
 void openHelp();
 void parseSpace(char *str, char **cmd);
 int processString(char *str,struct command *cmd);
+void clearBackgroundExecSymbol(char **cmd);
+int parseSemicolon(char* str, char** strpiped);
 #endif

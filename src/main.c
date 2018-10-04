@@ -16,6 +16,10 @@ int main(int argc,char **argv){
         if (takeInput(src))
             continue;
         numCMD=processString(src,cmd);
+        if(numCMD==0){
+            printf("shit");
+            execNonePipedDemondCmd(cmd[0].cmd);
+        }
         if(numCMD==1){
             execNonePipedCmd(cmd[0].cmd);
             numCMD=-1;

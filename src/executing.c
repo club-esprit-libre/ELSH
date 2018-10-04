@@ -21,6 +21,25 @@ int execNonePipedCmd(char **str){
 }
 
 
+int execNonePipedDemondCmd(char **str){
+
+    // Forking a child
+    pid_t pid = fork();
+
+    if (pid == -1) {
+        printf("\nFailed forking child..");
+        return 0;
+    } else if (pid == 0) {
+        if (execvp(str[0],str) < 0) {
+            printf("\nCould not execute command..");
+        }
+        exit(0);
+    } else {
+        // waiting for child to terminate
+        wait;
+        return 1;
+    }
+}
 
 
 
