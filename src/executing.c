@@ -3,7 +3,7 @@
 int execNonePipedCmd(char **str){
 
     // Forking a child
-    pid_t pid = fork();
+    pid_t pid = vfork();
 
     if (pid == -1) {
         printf("\nFailed forking child..");
@@ -24,20 +24,16 @@ int execNonePipedCmd(char **str){
 int execNonePipedBackgroundCmd(char **str){
 
     // Forking a child
-    pid_t pid = fork();
+    pid_t pid = vfork();
 
     if (pid == -1) {
         printf("\nFailed forking child..");
         return 0;
     } else if (pid == 0) {
-        if (execvp(str[0],str) < 0) {
-            printf("\nCould not execute command..");
-        }
-        exit(0);
-    } else {
-        // waiting for child to terminate
-        wait;
-        return 1;
+        execvp(str[0],str);
+        perror("execute");
+        exit(EXIT_SUCCESS);
+
     }
 }
 
@@ -65,7 +61,7 @@ int  execPipedCmd(struct command *cmd,int number_of_pipes) {
 
     int j = 0;
     for(commandc=0;commandc<number_of_pipes;commandc++) {
-        pid = fork();
+        pid = vfork();
         if(pid == 0) {
 
             //if not last command
@@ -129,7 +125,7 @@ int  execPipedBackgroundCmd(struct command *cmd,int number_of_pipes) {
 
     int j = 0;
     for(commandc=0;commandc<number_of_pipes;commandc++) {
-        pid = fork();
+        pid = vfork();
         if(pid == 0) {
 
             //if not last command

@@ -150,7 +150,7 @@ void clearBackgroundExecSymbol(char *cmd) {
     int i=0;
     while(cmd[i]!='\0') {
         if(cmd[i]=='&'){
-            cmd[i]=' ';
+            cmd[i]='\0';
             return ;
         }
     i++;
@@ -166,13 +166,13 @@ int processString(char* str,struct command *cmd){
     piped = parsePipe(str, strpiped);
     int specific_char[piped];
     if (piped > 1) {
-        for(int i=0;i<piped;i++) {
+        for(int i=0;i<piped;i++) {//cheking for specific characters
             specific_char[i]=findspecificChar(strpiped[i]);
             switch(specific_char[i]){
                 case 0 :
                 if(i!=piped-1)
                     clearBackgroundExecSymbol(strpiped[i]);
-                    return 0;
+                    return -2;
                 break;
                 case 2 :
                 break;
@@ -188,13 +188,13 @@ int processString(char* str,struct command *cmd){
             parseSpace(strpiped[i], cmd[i].cmd);
     }
     else {
-        specific_char[0]=findspecificChar(str);
-                    if(specific_char[0]==0){
-                    clearBackgroundExecSymbol(str);
-                    return 0;
-                }
+            specific_char[0]=findspecificChar(str);
+            if(specific_char[0]==0){//cheking if the command have to be executed on the background
+                clearBackgroundExecSymbol(str);
+                return -3;
+            }
+            parseSpace(str, cmd[0].cmd);
     }
-        parseSpace(str, cmd[0].cmd);
     if(ownCmdHandler(cmd[0].cmd))
         return 0;
     return piped;
